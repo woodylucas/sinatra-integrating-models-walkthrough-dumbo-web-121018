@@ -1,9 +1,26 @@
 <h1>Your Text Analysis</h1>
 
-<h2>Number of Words: </h2>
+<h2>Number of Words: <%=@analyzed_text.text.split(' ').length  %></h2>
 
-<h2>Vowels: </h2>
+<h2>Vowels: <%=@analyzed_text.text.scan(/[aeiou]/).length %></h2>
 
-<h2>Consonants: </h2>
+<h2>Consonants: <%=@analyzed_text.text.scan(/[b-df-hj-nq-tv-z]/).length %></h2>
 
-<h2>Most Common Letter: _____ used _____ times</h2>
+<% @hash = {} %>
+<% @arrays = @analyzed_text.text.scan(/[a-z]/) %>
+<% @arrays.each do |letters| %>
+<% if @hash.include?(letters) == true %>
+<% @hash[letters] += 1 %>
+<% else %>
+<% @hash[letters] = 1 %>
+<% end %>
+<% end %>
+<% @highest_count = 0  %>
+<% @highest_letter = "" %>
+<% @hash.each do |letter, count| %>
+<% if count > @highest_count %>
+<% @highest_count = count %>
+<% @highest_letter = letter %>
+<% end %>
+<% end %>
+<h2>Most Common Letter: <%= @highest_letter.upcase %>, used, <%= @highest_count %> times</h2>
